@@ -1,0 +1,126 @@
+{
+  "forward": [
+    {
+      "departureTime": "07:30",
+      "arrivalTime": "16:20",
+      "trainTypeNameEn": "SPECIAL EXPRESS DRC.",
+      "trainNo": "43"
+    },
+    {
+      "departureTime": "15:10",
+      "arrivalTime": "01:11",
+      "trainTypeNameEn": "RAPID",
+      "trainNo": "171"
+    },
+    {
+      "departureTime": "16:10",
+      "arrivalTime": "01:49",
+      "trainTypeNameEn": "SPECIAL EXPRESS",
+      "trainNo": "37"
+    },
+    {
+      "departureTime": "16:10",
+      "arrivalTime": "01:49",
+      "trainTypeNameEn": "SPECIAL EXPRESS",
+      "trainNo": "45"
+    },
+    {
+      "departureTime": "16:50",
+      "arrivalTime": "02:20",
+      "trainTypeNameEn": "SPECIAL EXPRESS CNR",
+      "trainNo": "31"
+    },
+    {
+      "departureTime": "17:30",
+      "arrivalTime": "04:06",
+      "trainTypeNameEn": "RAPID",
+      "trainNo": "169"
+    },
+    {
+      "departureTime": "18:50",
+      "arrivalTime": "04:58",
+      "trainTypeNameEn": "EXPRESS",
+      "trainNo": "83"
+    },
+    {
+      "departureTime": "19:50",
+      "arrivalTime": "06:23",
+      "trainTypeNameEn": "EXPRESS",
+      "trainNo": "85"
+    },
+    {
+      "departureTime": "20:30",
+      "arrivalTime": "07:16",
+      "trainTypeNameEn": "RAPID",
+      "trainNo": "167"
+    },
+    {
+      "departureTime": "22:50",
+      "arrivalTime": "07:50",
+      "trainTypeNameEn": "SPECIAL EXPRESS DRC.",
+      "trainNo": "39"
+    }
+  ],
+  "backward": [
+    {
+      "departureTime": "09:00",
+      "arrivalTime": "18:05",
+      "trainTypeNameEn": "SPECIAL EXPRESS DRC.",
+      "trainNo": "40"
+    },
+    {
+      "departureTime": "18:25",
+      "arrivalTime": "03:45",
+      "trainTypeNameEn": "SPECIAL EXPRESS DRC.",
+      "trainNo": "44"
+    },
+    {
+      "departureTime": "18:32",
+      "arrivalTime": "05:10",
+      "trainTypeNameEn": "RAPID",
+      "trainNo": "168"
+    },
+    {
+      "departureTime": "19:31",
+      "arrivalTime": "06:10",
+      "trainTypeNameEn": "EXPRESS",
+      "trainNo": "86"
+    },
+    {
+      "departureTime": "20:23",
+      "arrivalTime": "07:05",
+      "trainTypeNameEn": "EXPRESS",
+      "trainNo": "84"
+    },
+    {
+      "departureTime": "20:55",
+      "arrivalTime": "07:30",
+      "trainTypeNameEn": "RAPID",
+      "trainNo": "172"
+    },
+    {
+      "departureTime": "22:24",
+      "arrivalTime": "08:10",
+      "trainTypeNameEn": "SPECIAL EXPRESS CNR",
+      "trainNo": "32"
+    },
+    {
+      "departureTime": "22:50",
+      "arrivalTime": "09:05",
+      "trainTypeNameEn": "SPECIAL EXPRESS",
+      "trainNo": "38"
+    },
+    {
+      "departureTime": "22:50",
+      "arrivalTime": "09:05",
+      "trainTypeNameEn": "SPECIAL EXPRESS",
+      "trainNo": "46"
+    },
+    {
+      "departureTime": "23:28",
+      "arrivalTime": "10:50",
+      "trainTypeNameEn": "RAPID",
+      "trainNo": "170"
+    }
+  ]
+}
