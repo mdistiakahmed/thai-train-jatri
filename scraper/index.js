@@ -6,6 +6,11 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const routes = [
+  { source: "Krung Thep Aphiwat", destination: "Surat Thani" },
+  { source: "Krung Thep Aphiwat", destination: "Chiang Mai" },
+];
+
 async function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -194,26 +199,34 @@ async function scrapeThaiRailway() {
         tomorrow.setDate(tomorrow.getDate() + 1);
         const formattedDate = `${String(tomorrow.getDate()).padStart(2, '0')}/${String(tomorrow.getMonth() + 1).padStart(2, '0')}/${tomorrow.getFullYear()}`;
 
-        // Get the stations
-        const krungThep = stations.find(s => s.stationNameEn.includes('Krung Thep Aphiwat'));
-        const suratThani = stations.find(s => s.stationNameEn.includes('Surat Thani'));
 
-        if (!krungThep || !suratThani) {
-            throw new Error('Required stations not found');
+        for (const route of routes) {
+            try {
+                // Get the stations for current route
+                const fromStation = stations.find(s => s.stationNameEn.includes(route.source));
+                const toStation = stations.find(s => s.stationNameEn.includes(route.destination));
+                if (!fromStation || !toStation) {
+                    console.error(`Required stations not found for route: ${route.source} to ${route.destination}`);
+                    continue; // Skip this route if stations not found
+                }
+                console.log(`Processing route: ${fromStation.stationNameEn} to ${toStation.stationNameEn}`);
+            
+                const forwardTrips = await fetchTripData(page, fromStation.stationId, toStation.stationId, formattedDate);
+                await delay(2000);
+
+                console.log(`Fetching trips from ${toStation.stationNameEn} to ${fromStation.stationNameEn}...`);
+                const returnTrips = await fetchTripData(page, toStation.stationId, fromStation.stationId, formattedDate);
+
+                // Save combined data
+                await saveCombinedTripData(forwardTrips, returnTrips, fromStation, toStation);
+
+                console.log('Scraping completed successfully!');
+            } catch (error) {
+                console.error(`Error processing route ${route.source} to ${route.destination}:`, error);
+            }
+    
         }
-
-        // Fetch trips in both directions
-        console.log(`Fetching trips from ${krungThep.stationNameEn} to ${suratThani.stationNameEn}...`);
-        const forwardTrips = await fetchTripData(page, krungThep.stationId, suratThani.stationId, formattedDate);
-        await delay(2000);
-
-        console.log(`Fetching trips from ${suratThani.stationNameEn} to ${krungThep.stationNameEn}...`);
-        const returnTrips = await fetchTripData(page, suratThani.stationId, krungThep.stationId, formattedDate);
-
-        // Save combined data
-        await saveCombinedTripData(forwardTrips, returnTrips, krungThep, suratThani);
-
-        console.log('Scraping completed successfully!');
+        
         console.log('Scraping completed successfully!');
 
         /*

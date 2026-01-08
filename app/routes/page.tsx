@@ -4,10 +4,8 @@ import Link from 'next/link';
 
 // Mock data - replace this with your actual data
 const routes = [
-  { from: 'Krung Thep Aphiwat', to: 'Surat Thani', slug: 'krung-thep-aphiwat-to-surat-thani' },
-  { from: 'Bangkok', to: 'Chiang Mai', slug: 'bangkok-to-chiang-mai' },
-  { from: 'Hua Hin', to: 'Pattaya', slug: 'hua-hin-to-pattaya' },
-  { from: 'Ayutthaya', to: 'Phuket', slug: 'ayutthaya-to-phuket' },
+  { from: 'Bangkok (Krung Thep Aphiwat)', to: 'Surat Thani', slug: 'krung-thep-aphiwat-to-surat-thani' },
+  { from: 'Bangkok (Krung Thep Aphiwat)', to: 'Chiang Mai', slug: 'krung-thep-aphiwat-to-chiang-mai' },
 ];
 
 export default function RoutesPage() {
