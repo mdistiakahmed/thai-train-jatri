@@ -6,6 +6,7 @@ import Link from 'next/link';
 const routes = [
   { from: 'Bangkok (Krung Thep Aphiwat)', to: 'Surat Thani', slug: 'krung-thep-aphiwat-to-surat-thani' },
   { from: 'Bangkok (Krung Thep Aphiwat)', to: 'Chiang Mai', slug: 'krung-thep-aphiwat-to-chiang-mai' },
+  { from: 'Bangkok', to: 'Pattaya', slug: 'bangkok-to-pattaya' },
 ];
 
 export default function RoutesPage() {

@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 const routes = [
   { source: "Krung Thep Aphiwat", destination: "Surat Thani" },
   { source: "Krung Thep Aphiwat", destination: "Chiang Mai" },
+  { source: "Bangkok", destination: "Pattaya" },
 ];
 
 async function delay(ms) {
@@ -58,8 +59,7 @@ async function getStations(page) {
     }
 }
 
-
-async function fetchTripData(page, startStationId, endStationId, date) {
+async function fetchOneDayData(page, startStationId, endStationId, date) {
     try {
         const response = await page.evaluate(async (startId, endId, tripDate) => {
             try {
@@ -93,9 +93,83 @@ async function fetchTripData(page, startStationId, endStationId, date) {
         }, startStationId, endStationId, date);
         return response;
     } catch (error) {
+        console.error('Error in fetchOneDayData:', error);
+        return [];
+    }
+}
+
+
+async function fetchTripData(page, startStationId, endStationId) {
+    try {
+        const allTrips = [];
+        const date = new Date();
+
+        for (let i = 1; i <= 7; i++) {
+            date.setDate(date.getDate() + 1);
+            const formattedDate = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+            
+
+            const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
+            console.log(`Checking ${dayOfWeek} (${formattedDate})...`);
+
+            const trips = await fetchOneDayData(page, startStationId, endStationId, formattedDate);
+            
+            console.log(`Found ${trips.length} trips for ${dayOfWeek}`);
+            const tripsWithDay = trips.map(trip => ({
+                ...trip,
+                operatingDay: dayOfWeek
+            }));
+            allTrips.push(...tripsWithDay);
+
+            await delay(2000);
+        }
+
+        console.log(`Total trips found: ${allTrips.length}`);
+
+        // Group trips by train number
+        const tripsByTrain = allTrips.reduce((acc, trip) => {
+            const trainNo = trip.trainNo;
+            if (!acc[trainNo]) {
+                acc[trainNo] = {
+                    trainNo,
+                    trainTypeNameEn: trip.trainTypeNameEn,
+                    departureTime: trip.departureTime,
+                    arrivalTime: trip.arrivalTime,
+                    operatingDays: []
+                };
+            }
+            
+            // Add day if not already in the list
+            if (!acc[trainNo].operatingDays.includes(trip.operatingDay)) {
+                acc[trainNo].operatingDays.push(trip.operatingDay);
+            }
+            
+            return acc;
+        }, {});
+
+        console.log(`Total trains found: ${Object.keys(tripsByTrain).length}`);
+
+        // Convert to array and add offDay information
+        const result = Object.values(tripsByTrain).map(train => {
+            const allDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const offDays = allDays.filter(day => !train.operatingDays.includes(day));
+            
+            return {
+                ...train,
+                operatingDays: train.operatingDays.join(', '),
+                offDay: offDays.length > 0 ? offDays.join(', ') : 'No off day'
+            };
+        });
+
+        console.log(`Result: ${JSON.stringify(result, null, 2)}`);
+        return result;
+
+    } catch (error) {
         console.error('Error in fetchTripData:', error);
         return [];
     }
+    
+    
 }
 
 // Add this function to generate all unique station pairs
@@ -211,11 +285,11 @@ async function scrapeThaiRailway() {
                 }
                 console.log(`Processing route: ${fromStation.stationNameEn} to ${toStation.stationNameEn}`);
             
-                const forwardTrips = await fetchTripData(page, fromStation.stationId, toStation.stationId, formattedDate);
+                const forwardTrips = await fetchTripData(page, fromStation.stationId, toStation.stationId);
                 await delay(2000);
 
                 console.log(`Fetching trips from ${toStation.stationNameEn} to ${fromStation.stationNameEn}...`);
-                const returnTrips = await fetchTripData(page, toStation.stationId, fromStation.stationId, formattedDate);
+                const returnTrips = await fetchTripData(page, toStation.stationId, fromStation.stationId);
 
                 // Save combined data
                 await saveCombinedTripData(forwardTrips, returnTrips, fromStation, toStation);

@@ -206,6 +206,13 @@ export default async function RoutePage({ params }: any) {
     );
   };
 
+  // Add this function to format the operating days
+  function formatOperatingDays(daysString: string): string {
+    if (!daysString) return 'N/A';
+    const days = daysString.split(',').map(day => day.trim());
+    return days.length === 7 ? 'All 7 days in the week' : daysString;
+  }
+
   return (
     <div className="min-h-screen w-screen md:w-full py-8 md:px-4 ">
       <div className="w-full px-4 sm:px-6 lg:px-8 overflow-x-auto">
@@ -240,6 +247,9 @@ export default async function RoutePage({ params }: any) {
                         <th className="py-3 px-4 border-b text-center text-xs sm:text-sm font-medium uppercase tracking-wider">
                           Arrival
                         </th>
+                        <th className="py-3 px-4 border-b text-center text-xs sm:text-sm font-medium  uppercase tracking-wider">
+                          Operating Days
+                        </th>
                         <th className="py-3 px-4 border-b text-left text-xs sm:text-sm font-medium  uppercase tracking-wider">
                           Train Type
                         </th>
@@ -256,6 +266,9 @@ export default async function RoutePage({ params }: any) {
                           </td>
                           <td className="py-4 px-4 whitespace-nowrap text-sm text-center ">
                             {formatTime(trip.arrivalTime)}
+                          </td>
+                          <td className="py-4 px-4 whitespace-nowrap text-sm text-center ">
+                            {formatOperatingDays(trip.operatingDays)}
                           </td>
                           <td className="py-4 px-4 whitespace-nowrap text-sm font-medium ">
                             <div className="flex items-center">
@@ -297,6 +310,9 @@ export default async function RoutePage({ params }: any) {
                         <th className="py-3 px-4 border-b text-center text-xs sm:text-sm font-medium uppercase tracking-wider">
                           Arrival
                         </th>
+                        <th className="py-3 px-4 border-b  text-xs sm:text-sm font-medium text-center  uppercase tracking-wider">
+                          Operating Days
+                        </th>
                         <th className="py-3 px-4 border-b text-left text-xs sm:text-sm font-medium  uppercase tracking-wider">
                           Train Type
                         </th>
@@ -313,6 +329,9 @@ export default async function RoutePage({ params }: any) {
                           </td>
                           <td className="py-4 px-4 whitespace-nowrap text-sm text-center ">
                             {formatTime(trip.arrivalTime)}
+                          </td>
+                          <td className="py-4 px-4 whitespace-nowrap text-sm text-center ">
+                            {formatOperatingDays(trip.operatingDays)}
                           </td>
                           <td className="py-4 px-4 whitespace-nowrap text-sm font-medium ">
                             <div className="flex items-center">
