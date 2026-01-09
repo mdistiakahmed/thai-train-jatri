@@ -1,3 +1,12 @@
+export default function RoutesPage() {
+  return (
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">Available Train Routes</h1>
+      <p className="text-gray-600">Select a route to view schedules and book tickets</p>
+    </div>
+  );
+}
+
 // 'use client';
 
 // import { useState, useEffect } from 'react';
